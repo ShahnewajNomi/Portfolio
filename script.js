@@ -1,73 +1,127 @@
 $(document).ready(function(){
+
+    // ==========================================
+    // 1. Theme Switcher Logic (Dark & Light Mode)
+    // ==========================================
+    const $html = $('html');
+    const $heroThemeToggle = $('#hero-theme-toggle');
+    const $navThemeToggle = $('#nav-theme-toggle');
+    const $themeStatusText = $('#theme-status-text');
+
+    function setTheme(theme) {
+        $html.attr('data-theme', theme);
+        localStorage.setItem('portfolio-theme', theme);
+        
+        if (theme === 'light') {
+            $themeStatusText.text('Light Mode Active');
+        } else {
+            $themeStatusText.text('Dark Mode Active');
+        }
+    }
+
+    // Initialize Theme from localStorage or Default to Dark Mode
+    const savedTheme = localStorage.getItem('portfolio-theme') || 'dark';
+    setTheme(savedTheme);
+
+    // Toggle Theme Handler
+    function toggleTheme() {
+        const currentTheme = $html.attr('data-theme');
+        const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+        setTheme(newTheme);
+    }
+
+    $heroThemeToggle.on('click', toggleTheme);
+    $navThemeToggle.on('click', toggleTheme);
+
+    // ==========================================
+    // 2. Sticky Navbar & Scroll Up Button
+    // ==========================================
     $(window).scroll(function(){
-        // sticky navbar on scroll script
-        if(this.scrollY > 20){
+        // Sticky Navbar
+        if (this.scrollY > 20) {
             $('.navbar').addClass("sticky");
-        }else{
+        } else {
             $('.navbar').removeClass("sticky");
         }
         
-        // scroll-up button show/hide script
-        if(this.scrollY > 500){
+        // Scroll-Up Button Visibility
+        if (this.scrollY > 400) {
             $('.scroll-up-btn').addClass("show");
-        }else{
+        } else {
             $('.scroll-up-btn').removeClass("show");
         }
     });
 
-    // slide-up script
+    // Scroll to Top Click Event
     $('.scroll-up-btn').click(function(){
-        $('html').animate({scrollTop: 0});
-        // removing smooth scroll on slide-up button click
-        $('html').css("scrollBehavior", "auto");
+        $('html, body').animate({scrollTop: 0}, 'slow');
     });
 
-    $('.navbar .menu li a').click(function(){
-        // applying again smooth scroll on menu items click
-        $('html').css("scrollBehavior", "smooth");
-    });
-
-    // toggle menu/navbar script
-    $('.menu-btn').click(function(){
+    // ==========================================
+    // 3. Mobile Navigation Menu Toggle
+    // ==========================================
+    $('#mobile-menu-btn').click(function(){
         $('.navbar .menu').toggleClass("active");
-        $('.menu-btn i').toggleClass("active");
+        $(this).find('i').toggleClass("fa-bars fa-xmark");
     });
 
-    // typing text animation script
-    var typed = new Typed(".typing", {
-        strings: ["Student", "Developer", "Gamer", "Movie Addict", "Useless"],
-        typeSpeed: 100,
-        backSpeed: 60,
-        loop: true
+    // Close Mobile Menu when clicking menu item
+    $('.navbar .menu li a').click(function(){
+        $('.navbar .menu').removeClass("active");
+        $('#mobile-menu-btn i').removeClass("fa-xmark").addClass("fa-bars");
     });
 
-    var typed = new Typed(".typing-2", {
-        strings: ["Study In Cse", "Web Developer", "Gamer", "Stupid", "A trash"],
-        typeSpeed: 100,
-        backSpeed: 60,
-        loop: true
-    });
-
-    // owl carousel script
-    $('.carousel').owlCarousel({
-        margin: 20,
-        loop: true,
-        autoplay: true,
-        autoplayTimeOut: 2000,
-        autoplayHoverPause: true,
-        responsive: {
-            0:{
-                items: 1,
-                nav: false
-            },
-            600:{
-                items: 2,
-                nav: false
-            },
-            1000:{
-                items: 3,
-                nav: false
-            }
+    // Close Mobile Menu on Click Outside
+    $(document).on('click', function(e) {
+        if (!$(e.target).closest('.navbar').length) {
+            $('.navbar .menu').removeClass("active");
+            $('#mobile-menu-btn i').removeClass("fa-xmark").addClass("fa-bars");
         }
     });
+
+    // ==========================================
+    // 4. Typing Animation Script
+    // ==========================================
+    if (typeof Typed !== 'undefined') {
+        new Typed(".typing", {
+            strings: ["Web Developer", "Graphics Designer", "UI/UX Enthusiast", "Creative Techie"],
+            typeSpeed: 90,
+            backSpeed: 50,
+            loop: true
+        });
+
+        new Typed(".typing-2", {
+            strings: ["Web Developer", "Graphics Designer", "Frontend Designer"],
+            typeSpeed: 90,
+            backSpeed: 50,
+            loop: true
+        });
+    }
+
+    // ==========================================
+    // 5. Owl Carousel Script for Teams/Showcase
+    // ==========================================
+    if ($.fn.owlCarousel) {
+        $('.carousel').owlCarousel({
+            margin: 20,
+            loop: true,
+            autoplay: true,
+            autoplayTimeout: 3000,
+            autoplayHoverPause: true,
+            responsive: {
+                0: {
+                    items: 1,
+                    nav: false
+                },
+                600: {
+                    items: 2,
+                    nav: false
+                },
+                1000: {
+                    items: 3,
+                    nav: false
+                }
+            }
+        });
+    }
 });

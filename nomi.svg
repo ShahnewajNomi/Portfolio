@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <defs>
+    <linearGradient id="nomiGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FF2A6D" />
+      <stop offset="50%" stop-color="#9B51E0" />
+      <stop offset="100%" stop-color="#00F0FF" />
+    </linearGradient>
+  </defs>
+
+  <!-- Full sharp black square (no rounded corners, no transparent gaps) -->
+  <rect width="100%" height="100%" fill="#000000" />
+
+  <!-- Centered Bold Text -->
+  <text 
+    x="50%" 
+    y="53%" 
+    fill="url(#nomiGrad)" 
+    font-family="system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Montserrat', sans-serif" 
+    font-size="20" 
+    font-weight="900" 
+    letter-spacing="0.5" 
+    text-anchor="middle" 
+    dominant-baseline="central">
+    NOMI
+  </text>
+</svg>
